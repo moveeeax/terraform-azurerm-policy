@@ -9,7 +9,7 @@ can be expressed.
 
 ```hcl
 module "policy" {
-  source = "github.com/cybercapybara/terraform-azurerm-policy"
+  source = "github.com/moveeeax/terraform-azurerm-policy"
 
   name         = "require-environment-tag"
   display_name = "Require an Environment tag on resources"
