@@ -9,13 +9,20 @@ terraform {
   }
 }
 
-provider "azurerm" {
-  features {}
+variable "subscription_id" {
+  description = "Subscription to create the policy definition in. Required by azurerm 4.x and accepted by 3.x."
+  type        = string
 }
 
 variable "resource_group_id" {
   description = "ID of the resource group to assign the policy to."
   type        = string
+}
+
+provider "azurerm" {
+  features {}
+
+  subscription_id = var.subscription_id
 }
 
 module "policy" {
@@ -40,4 +47,8 @@ module "policy" {
 
 output "policy_id" {
   value = module.policy.id
+}
+
+output "effective_effect" {
+  value = module.policy.effective_effect
 }
