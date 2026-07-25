@@ -24,8 +24,28 @@ jobs:
       - name: validate
         run: tofu validate
 
-      - name: validate example
-        working-directory: examples/basic
+      # Runs against a mocked provider, so no Azure credentials are needed.
+      - name: test
+        run: tofu test
+
+      - name: validate examples
         run: |
-          tofu init -backend=false
-          tofu validate
+          set -euo pipefail
+          for dir in examples/*/; do
+            echo "::group::${dir}"
+            tofu -chdir="${dir}" init -backend=false
+            tofu -chdir="${dir}" validate
+            echo "::endgroup::"
+          done
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: terraform-linters/setup-tflint@v4
+
+      - name: tflint
+        run: |
+          tflint --init
+          tflint --recursive
