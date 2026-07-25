@@ -3,7 +3,15 @@
 # These require Terraform >= 1.7 (or OpenTofu >= 1.7) for `mock_provider`. That
 # is a test-only requirement; the module itself still supports >= 1.5.
 
-mock_provider "azurerm" {}
+mock_provider "azurerm" {
+  # OpenTofu makes mocked computed attributes known at plan time, and the
+  # provider validates policy_definition_id, so give the definition a real-shaped ID.
+  mock_resource "azurerm_policy_definition" {
+    defaults = {
+      id = "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/require-environment-tag"
+    }
+  }
+}
 
 variables {
   name         = "require-environment-tag"
