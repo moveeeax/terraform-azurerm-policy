@@ -9,7 +9,7 @@ can be expressed.
 
 ```hcl
 module "policy" {
-  source = "github.com/moveeeax/terraform-azurerm-policy"
+  source = "github.com/moveeeax/terraform-azurerm-policy?ref=v1.0.0"
 
   name         = "require-environment-tag"
   display_name = "Require an Environment tag on resources"
@@ -61,10 +61,11 @@ the assignment values and parameter defaults.
 | Name      | Version  |
 |-----------|----------|
 | terraform | >= 1.5   |
-| azurerm   | >= 3.0   |
+| azurerm   | >= 3.0, < 6.0 |
 
 The `>= 3.0` floor is verified: the full test suite passes against azurerm
-`3.0.0`, `4.0.0` and `4.81.0`. Running `terraform test` additionally needs
+`3.0.0`, `4.0.0`, `4.81.0` and `5.12.0`. CI runs it against the latest 5.x
+release; 6.x is excluded until it has been tested. Running `terraform test` additionally needs
 Terraform or OpenTofu >= 1.7 for `mock_provider`; that is a test-only
 requirement and does not apply to consumers of the module.
 
